@@ -20,6 +20,15 @@ const reviewMessage = document.querySelector("[data-review-message]");
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+const showDemoMessage = (message, target) => {
+  if (target) {
+    target.textContent = message;
+    return;
+  }
+
+  window.alert(message);
+};
+
 window.addEventListener("scroll", () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 18);
 });
@@ -103,44 +112,18 @@ form?.addEventListener("submit", (event) => {
   form.reset();
 });
 
-shareButton?.addEventListener("click", async () => {
-  const shareUrl = window.location.href;
-  const shareText = "ملف الثقة المهنية والمالية من ثِق";
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: "ملف الثقة | ثِق",
-        text: shareText,
-        url: shareUrl,
-      });
-      if (shareMessage) shareMessage.textContent = "تم تجهيز مشاركة ملف الثقة.";
-      return;
-    } catch {
-      // The user may cancel the native share sheet.
-    }
-  }
-
-  try {
-    await navigator.clipboard.writeText(shareUrl);
-    if (shareMessage) shareMessage.textContent = "تم نسخ رابط ملف الثقة.";
-  } catch {
-    if (shareMessage) shareMessage.textContent = "رابط ملف الثقة جاهز للمشاركة.";
-  }
+shareButton?.addEventListener("click", () => {
+  showDemoMessage("تم تجهيز مشاركة ملف الثقة في نسخة العرض.", shareMessage);
 });
 
 uploadButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    if (!uploadMessage) return;
-
-    uploadMessage.textContent = "تمت محاكاة رفع المستند. الربط الفعلي سيضاف لاحقاً.";
+    showDemoMessage("تمت محاكاة رفع المستند. الربط الفعلي سيضاف لاحقاً.", uploadMessage);
   });
 });
 
 analysisButton?.addEventListener("click", () => {
-  if (!analysisMessage) return;
-
-  analysisMessage.textContent = "بدأت محاكاة تحليل الملف. لا يوجد اتصال بقاعدة بيانات في نسخة العرض.";
+  showDemoMessage("بدأت محاكاة تحليل الملف. سيتم فتح ملف الثقة.", analysisMessage);
 });
 
 const updateDecisionPanel = (card) => {
@@ -215,7 +198,5 @@ profileSearch?.addEventListener("input", filterProfiles);
 profileFilters.forEach((filter) => filter.addEventListener("change", filterProfiles));
 
 reviewButton?.addEventListener("click", () => {
-  if (!reviewMessage) return;
-
-  reviewMessage.textContent = "تمت محاكاة إرسال الملف للمراجعة التمويلية.";
+  showDemoMessage("تمت محاكاة إرسال الملف للمراجعة التمويلية.", reviewMessage);
 });
