@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="لوحة جهة التمويل في ثِق لاستعراض ملفات الثقة المهنية والمالية وعوامل داعمة للقرار التمويلي."
+    />
+    <title>لوحة جهة التمويل | ثِق</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../CSS/style.css" />
+  </head>
+  <body class="profile-page funder-page">
+    <header class="profile-topbar">
+      <a class="brand" href="../index.html" aria-label="ثِق">
+        <span class="brand-symbol" aria-hidden="true">ثِق</span>
+        <span>
+          <strong>ثِق</strong>
+          <small>Funding Dashboard</small>
+        </span>
+      </a>
+
+      <nav class="funder-nav" aria-label="روابط المنصة">
+        <a href="../index.html">الرئيسية</a>
+        <a href="upload-documents.html">رفع المستندات</a>
+        <a href="trust-profile.html">ملف الثقة</a>
+      </nav>
+    </header>
+
+    <main class="profile-shell funder-shell">
+      <section class="funder-hero">
+        <div>
+          <p class="eyebrow">
+            <i class="ri-bank-line"></i>
+            عوامل داعمة للقرار التمويلي
+          </p>
+          <h1>صندوق نمو للتمويل</h1>
+          <p>استعراض ملفات الثقة المهنية والمالية للمستقلين والمنشآت الصغيرة والمتوسطة.</p>
+        </div>
+      </section>
+
+      <section class="funder-summary-grid" aria-label="ملخص لوحة جهة التمويل">
+        <article>
+          <i class="ri-folder-user-line"></i>
+          <span>إجمالي الملفات</span>
+          <strong data-counter="128">0</strong>
+        </article>
+        <article>
+          <i class="ri-shield-star-line"></i>
+          <span>ملفات عالية الثقة</span>
+          <strong data-counter="42">0</strong>
+        </article>
+        <article>
+          <i class="ri-search-eye-line"></i>
+          <span>جاهزة للمراجعة</span>
+          <strong data-counter="18">0</strong>
+        </article>
+        <article>
+          <i class="ri-arrow-down-circle-line"></i>
+          <span>مخاطر منخفضة</span>
+          <strong data-counter="64">0</strong>
+          <small>%</small>
+        </article>
+      </section>
+
+      <section class="funder-filters profile-section">
+        <label class="search-field">
+          <i class="ri-search-line"></i>
+          <input type="search" placeholder="ابحث باسم المستقل أو النشاط" data-profile-search />
+        </label>
+
+        <label>
+          <span>مستوى الثقة</span>
+          <select data-profile-filter="trust">
+            <option value="">الكل</option>
+            <option value="high">مرتفعة</option>
+            <option value="medium">متوسطة</option>
+          </select>
+        </label>
+        <label>
+          <span>نوع النشاط</span>
+          <select data-profile-filter="activity">
+            <option value="">الكل</option>
+            <option value="software">تطوير برمجيات</option>
+            <option value="design">تصميم وتجربة مستخدم</option>
+            <option value="content">كتابة محتوى وتسويق</option>
+            <option value="operations">خدمات تشغيلية</option>
+          </select>
+        </label>
+        <label>
+          <span>جاهزية التمويل</span>
+          <select data-profile-filter="readiness">
+            <option value="">الكل</option>
+            <option value="suitable">مناسبة</option>
+            <option value="review">تحتاج مراجعة</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="funder-main-grid">
+        <div class="profile-section funder-profiles-section">
+          <div class="section-heading compact-heading">
+            <span>ملفات الثقة</span>
+            <h2>اختر ملفاً لعرض تفاصيل القرار التمويلي.</h2>
+          </div>
+
+          <div class="funder-profile-list" data-profile-list>
+            <article
+              class="funder-profile-card is-selected"
+              tabindex="0"
+              data-profile-card
+              data-name="مؤسسة مدار التقنية"
+              data-activity="تطوير برمجيات"
+              data-activity-key="software"
+              data-score="87"
+              data-risk="منخفضة"
+              data-contracts="32"
+              data-rating="جدارة قوية"
+              data-trust="high"
+              data-readiness="suitable"
+              data-strengths="عقود واضحة، انتظام في التسليم، نمو مستمر"
+              data-ai="الملف يظهر التزاماً تعاقدياً مرتفعاً ونسبة نزاعات منخفضة."
+            >
+              <div>
+                <h3>مؤسسة مدار التقنية</h3>
+                <p>النشاط: تطوير برمجيات</p>
+              </div>
+              <div class="profile-card-metrics">
+                <span>مؤشر ثِق <strong>87</strong></span>
+                <span>المخاطر <strong>منخفضة</strong></span>
+                <span>العقود <strong>32</strong></span>
+                <span>التقييم <strong>جدارة قوية</strong></span>
+              </div>
+              <button class="btn secondary compact" type="button">عرض ملف الثقة</button>
+            </article>
+
+            <article
+              class="funder-profile-card"
+              tabindex="0"
+              data-profile-card
+              data-name="نورة للتصميم الرقمي"
+              data-activity="تصميم وتجربة مستخدم"
+              data-activity-key="design"
+              data-score="91"
+              data-risk="منخفضة"
+              data-contracts="45"
+              data-rating="ممتاز"
+              data-trust="high"
+              data-readiness="suitable"
+              data-strengths="تقييمات مرتفعة، عملاء متكررون، شفافية عالية"
+              data-ai="مؤشرات الملف تدعم قراراً أسرع بسبب اكتمال الأدلة وتنوع التوصيات."
+            >
+              <div>
+                <h3>نورة للتصميم الرقمي</h3>
+                <p>النشاط: تصميم وتجربة مستخدم</p>
+              </div>
+              <div class="profile-card-metrics">
+                <span>مؤشر ثِق <strong>91</strong></span>
+                <span>المخاطر <strong>منخفضة</strong></span>
+                <span>العقود <strong>45</strong></span>
+                <span>التقييم <strong>ممتاز</strong></span>
+              </div>
+              <button class="btn secondary compact" type="button">عرض ملف الثقة</button>
+            </article>
+
+            <article
+              class="funder-profile-card"
+              tabindex="0"
+              data-profile-card
+              data-name="حلول بيان للمحتوى"
+              data-activity="كتابة محتوى وتسويق"
+              data-activity-key="content"
+              data-score="78"
+              data-risk="متوسطة"
+              data-contracts="19"
+              data-rating="جيدة"
+              data-trust="medium"
+              data-readiness="review"
+              data-strengths="استمرارية نشاط جيدة، فواتير منتظمة، توصيات كافية"
+              data-ai="ينصح بمراجعة تنوع العقود قبل اتخاذ القرار النهائي."
+            >
+              <div>
+                <h3>حلول بيان للمحتوى</h3>
+                <p>النشاط: كتابة محتوى وتسويق</p>
+              </div>
+              <div class="profile-card-metrics">
+                <span>مؤشر ثِق <strong>78</strong></span>
+                <span>المخاطر <strong>متوسطة</strong></span>
+                <span>العقود <strong>19</strong></span>
+                <span>التقييم <strong>جيدة</strong></span>
+              </div>
+              <button class="btn secondary compact" type="button">عرض ملف الثقة</button>
+            </article>
+
+            <article
+              class="funder-profile-card"
+              tabindex="0"
+              data-profile-card
+              data-name="روافد الخدمات"
+              data-activity="خدمات تشغيلية"
+              data-activity-key="operations"
+              data-score="69"
+              data-risk="متوسطة"
+              data-contracts="12"
+              data-rating="بحاجة مراجعة"
+              data-trust="medium"
+              data-readiness="review"
+              data-strengths="نشاط قائم، عقود أولية، أدلة إنجاز متاحة"
+              data-ai="الملف يحتاج أدلة إضافية حول الالتزام بالمواعيد واستمرارية النشاط."
+            >
+              <div>
+                <h3>روافد الخدمات</h3>
+                <p>النشاط: خدمات تشغيلية</p>
+              </div>
+              <div class="profile-card-metrics">
+                <span>مؤشر ثِق <strong>69</strong></span>
+                <span>المخاطر <strong>متوسطة</strong></span>
+                <span>العقود <strong>12</strong></span>
+                <span>التقييم <strong>بحاجة مراجعة</strong></span>
+              </div>
+              <button class="btn secondary compact" type="button">عرض ملف الثقة</button>
+            </article>
+          </div>
+        </div>
+
+        <aside class="profile-section decision-panel" data-decision-panel>
+          <div class="section-heading compact-heading">
+            <span>لوحة القرار</span>
+            <h2 data-decision-name>مؤسسة مدار التقنية</h2>
+          </div>
+
+          <div class="decision-score">
+            <div class="score-ring small-score-ring" data-decision-ring style="--score-angle: 313.2deg">
+              <strong data-decision-score>87</strong>
+              <span>/100</span>
+            </div>
+            <div>
+              <span>درجة الثقة</span>
+              <strong data-decision-rating>جدارة قوية</strong>
+            </div>
+          </div>
+
+          <div class="decision-details">
+            <div>
+              <span>مستوى المخاطر</span>
+              <strong data-decision-risk>منخفضة</strong>
+            </div>
+            <div>
+              <span>جاهزية التمويل</span>
+              <strong data-decision-readiness>مناسبة</strong>
+            </div>
+            <div>
+              <span>أبرز نقاط القوة</span>
+              <strong data-decision-strengths>عقود واضحة، انتظام في التسليم، نمو مستمر</strong>
+            </div>
+            <div>
+              <span>ملاحظات AI</span>
+              <strong data-decision-ai>الملف يظهر التزاماً تعاقدياً مرتفعاً ونسبة نزاعات منخفضة.</strong>
+            </div>
+          </div>
+
+          <div class="decision-actions">
+            <a class="btn primary" href="trust-profile.html">فتح ملف الثقة</a>
+            <button class="btn secondary" type="button" data-send-review>إرسال للمراجعة</button>
+          </div>
+          <p data-review-message aria-live="polite"></p>
+        </aside>
+      </section>
+    </main>
+
+    <script src="../js/app.js"></script>
+  </body>
+</html>
