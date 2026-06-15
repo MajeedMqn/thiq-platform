@@ -17,6 +17,26 @@ const profileSearch = document.querySelector("[data-profile-search]");
 const profileFilters = document.querySelectorAll("[data-profile-filter]");
 const reviewButton = document.querySelector("[data-send-review]");
 const reviewMessage = document.querySelector("[data-review-message]");
+const completionValue = document.querySelector("[data-completion-value]");
+const completionProgress = document.querySelector("[data-completion-progress]");
+const demoCountTargets = document.querySelectorAll("[data-demo-count]");
+
+const DEMO_STORAGE_KEY = "thiq-demo-evidence";
+const DEMO_BASE_COUNTS = {
+  contracts: 12,
+  invoices: 28,
+  recommendations: 9,
+  certificates: 5,
+  achievements: 16,
+};
+
+const labels = {
+  contracts: "\u0627\u0644\u0639\u0642\u0648\u062f",
+  invoices: "\u0627\u0644\u0641\u0648\u0627\u062a\u064a\u0631",
+  recommendations: "\u0627\u0644\u062a\u0648\u0635\u064a\u0627\u062a",
+  certificates: "\u0634\u0647\u0627\u062f\u0627\u062a \u0627\u0644\u0625\u0646\u062c\u0627\u0632",
+  achievements: "\u0625\u062b\u0628\u0627\u062a\u0627\u062a \u0627\u0644\u0645\u0634\u0627\u0631\u064a\u0639",
+};
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -27,6 +47,54 @@ const showDemoMessage = (message, target) => {
   }
 
   window.alert(message);
+};
+
+const loadDemoEvidence = () => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(DEMO_STORAGE_KEY) || "{}");
+    return { ...DEMO_BASE_COUNTS, ...stored };
+  } catch {
+    return { ...DEMO_BASE_COUNTS };
+  }
+};
+
+const saveDemoEvidence = (data) => {
+  try {
+    localStorage.setItem(DEMO_STORAGE_KEY, JSON.stringify(data));
+  } catch {
+    // Demo mode can still run without persistence if storage is unavailable.
+  }
+};
+
+const getProfileCompletion = (data) => {
+  const uploadedExtra = Object.entries(data).reduce((total, [key, value]) => {
+    return total + Math.max(0, Number(value || 0) - DEMO_BASE_COUNTS[key]);
+  }, 0);
+
+  return clamp(72 + uploadedExtra * 3, 72, 100);
+};
+
+const applyDemoEvidence = () => {
+  const data = loadDemoEvidence();
+
+  demoCountTargets.forEach((target) => {
+    const key = target.dataset.demoCount;
+    if (!key || data[key] === undefined) return;
+    target.textContent = String(data[key]);
+  });
+
+  const completion = getProfileCompletion(data);
+
+  if (completionValue) {
+    completionValue.dataset.counter = String(completion);
+    completionValue.textContent = String(completion);
+  }
+
+  if (completionProgress) {
+    completionProgress.dataset.progress = String(completion);
+    completionProgress.style.width = `${completion}%`;
+    completionProgress.parentElement?.setAttribute("aria-label", `اكتمال الملف ${completion}%`);
+  }
 };
 
 window.addEventListener("scroll", () => {
@@ -96,6 +164,7 @@ const observer = new IntersectionObserver(
   { threshold: 0.35 }
 );
 
+applyDemoEvidence();
 scoreRings.forEach((ring) => observer.observe(ring));
 counters.forEach((counter) => observer.observe(counter));
 progressBars.forEach((bar) => observer.observe(bar));
@@ -108,22 +177,31 @@ form?.addEventListener("submit", (event) => {
 
   if (!email || !formMessage) return;
 
-  formMessage.textContent = "تم تسجيل اهتمامك. سنرسل لك دعوة الوصول المبكر قريباً.";
+  formMessage.textContent = "\u062a\u0645 \u062a\u0633\u062c\u064a\u0644 \u0627\u0647\u062a\u0645\u0627\u0645\u0643. \u0633\u0646\u0631\u0633\u0644 \u0644\u0643 \u062f\u0639\u0648\u0629 \u0627\u0644\u0648\u0635\u0648\u0644 \u0627\u0644\u0645\u0628\u0643\u0631 \u0642\u0631\u064a\u0628\u0627\u064b.";
   form.reset();
 });
 
 shareButton?.addEventListener("click", () => {
-  showDemoMessage("تم تجهيز مشاركة ملف الثقة في نسخة العرض.", shareMessage);
+  showDemoMessage("\u062a\u0645 \u062a\u062c\u0647\u064a\u0632 \u0645\u0634\u0627\u0631\u0643\u0629 \u0645\u0644\u0641 \u0627\u0644\u062b\u0642\u0629 \u0641\u064a \u0646\u0633\u062e\u0629 \u0627\u0644\u0639\u0631\u0636.", shareMessage);
 });
 
 uploadButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    showDemoMessage("تمت محاكاة رفع المستند. الربط الفعلي سيضاف لاحقاً.", uploadMessage);
+    const key = button.dataset.demoUpload;
+    if (!key) return;
+
+    const data = loadDemoEvidence();
+    data[key] = Number(data[key] || 0) + 1;
+    saveDemoEvidence(data);
+    applyDemoEvidence();
+
+    const label = labels[key] || "\u0627\u0644\u0645\u0633\u062a\u0646\u062f";
+    showDemoMessage(`\u062a\u0645 \u062d\u0641\u0638 ${label} \u0641\u064a \u0646\u0645\u0637 \u0627\u0644\u0639\u0631\u0636. \u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a \u0645\u062d\u0641\u0648\u0638\u0629 \u0645\u062d\u0644\u064a\u0627\u064b.`, uploadMessage);
   });
 });
 
 analysisButton?.addEventListener("click", () => {
-  showDemoMessage("بدأت محاكاة تحليل الملف. سيتم فتح ملف الثقة.", analysisMessage);
+  showDemoMessage("\u0628\u062f\u0623\u062a \u0645\u062d\u0627\u0643\u0627\u0629 \u062a\u062d\u0644\u064a\u0644 \u0627\u0644\u0645\u0644\u0641. \u0633\u064a\u062a\u0645 \u0641\u062a\u062d \u0645\u0644\u0641 \u0627\u0644\u062b\u0642\u0629.", analysisMessage);
 });
 
 const updateDecisionPanel = (card) => {
@@ -137,7 +215,7 @@ const updateDecisionPanel = (card) => {
   const ai = document.querySelector("[data-decision-ai]");
 
   const profileScore = Number(card.dataset.score || "0");
-  const readinessText = card.dataset.readiness === "suitable" ? "مناسبة" : "تحتاج مراجعة";
+  const readinessText = card.dataset.readiness === "suitable" ? "\u0645\u0646\u0627\u0633\u0628\u0629" : "\u062a\u062d\u062a\u0627\u062c \u0645\u0631\u0627\u062c\u0639\u0629";
 
   if (name) name.textContent = card.dataset.name || "";
   if (score) score.textContent = String(profileScore);
@@ -198,5 +276,5 @@ profileSearch?.addEventListener("input", filterProfiles);
 profileFilters.forEach((filter) => filter.addEventListener("change", filterProfiles));
 
 reviewButton?.addEventListener("click", () => {
-  showDemoMessage("تمت محاكاة إرسال الملف للمراجعة التمويلية.", reviewMessage);
+  showDemoMessage("\u062a\u0645\u062a \u0645\u062d\u0627\u0643\u0627\u0629 \u0625\u0631\u0633\u0627\u0644 \u0627\u0644\u0645\u0644\u0641 \u0644\u0644\u0645\u0631\u0627\u062c\u0639\u0629 \u0627\u0644\u062a\u0645\u0648\u064a\u0644\u064a\u0629.", reviewMessage);
 });
