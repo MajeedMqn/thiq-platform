@@ -1,4 +1,4 @@
-const header = document.querySelector("[data-header]");
+﻿const header = document.querySelector("[data-header]");
 const nav = document.querySelector("[data-nav]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const counters = document.querySelectorAll("[data-counter]");
@@ -93,7 +93,7 @@ const applyDemoEvidence = () => {
   if (completionProgress) {
     completionProgress.dataset.progress = String(completion);
     completionProgress.style.width = `${completion}%`;
-    completionProgress.parentElement?.setAttribute("aria-label", `اكتمال الملف ${completion}%`);
+    completionProgress.parentElement?.setAttribute("aria-label", `Ø§ÙƒØªÙ…Ø§Ù„ Ø§Ù„Ù…Ù„Ù ${completion}%`);
   }
 };
 
@@ -278,3 +278,4 @@ profileFilters.forEach((filter) => filter.addEventListener("change", filterProfi
 reviewButton?.addEventListener("click", () => {
   showDemoMessage("\u062a\u0645\u062a \u0645\u062d\u0627\u0643\u0627\u0629 \u0625\u0631\u0633\u0627\u0644 \u0627\u0644\u0645\u0644\u0641 \u0644\u0644\u0645\u0631\u0627\u062c\u0639\u0629 \u0627\u0644\u062a\u0645\u0648\u064a\u0644\u064a\u0629.", reviewMessage);
 });
+

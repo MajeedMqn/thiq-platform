@@ -94,45 +94,20 @@ input {
   min-width: 180px;
 }
 
-.brand-symbol {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  flex: 0 0 48px;
-  display: grid;
-  place-items: center;
+.logo-img {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
   border-radius: 16px;
-  color: #fffdf6;
-  font-size: 19px;
-  font-weight: 900;
-  line-height: 1;
-  background:
-    linear-gradient(145deg, rgba(243, 217, 141, 0.2), transparent 52%),
-    linear-gradient(145deg, var(--green), #0b2f25);
-  box-shadow:
-    inset 0 -9px 22px rgba(0, 0, 0, 0.16),
-    0 14px 28px rgba(20, 83, 63, 0.18);
+  object-fit: cover;
 }
 
-.brand-symbol::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border: 2px solid rgba(243, 217, 141, 0.72);
-  border-radius: 14px 14px 18px 18px;
-  clip-path: polygon(50% 0, 94% 18%, 85% 78%, 50% 100%, 15% 78%, 6% 18%);
-}
-
-.brand-symbol::after {
-  content: "";
-  position: absolute;
-  right: 16px;
-  bottom: 14px;
-  width: 12px;
-  height: 7px;
-  border-right: 2px solid var(--gold-2);
-  border-bottom: 2px solid var(--gold-2);
-  transform: rotate(38deg);
+.logo-img.mini {
+  width: 38px;
+  height: 38px;
+  flex-basis: 38px;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .brand strong,
@@ -1228,25 +1203,6 @@ input {
   gap: 10px;
   color: rgba(255, 255, 255, 0.76);
   font-weight: 900;
-}
-
-.brand-symbol.mini {
-  width: 38px;
-  height: 38px;
-  flex-basis: 38px;
-  border-radius: 13px;
-  font-size: 15px;
-}
-
-.brand-symbol.mini::before {
-  inset: 7px;
-}
-
-.brand-symbol.mini::after {
-  right: 13px;
-  bottom: 11px;
-  width: 10px;
-  height: 6px;
 }
 
 .share-card h3 {
