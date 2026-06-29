@@ -200,8 +200,10 @@ uploadButtons.forEach((button) => {
   });
 });
 
-analysisButton?.addEventListener("click", () => {
+analysisButton?.addEventListener("click", (event) => {
+  event.preventDefault();
   showDemoMessage("\u0628\u062f\u0623\u062a \u0645\u062d\u0627\u0643\u0627\u0629 \u062a\u062d\u0644\u064a\u0644 \u0627\u0644\u0645\u0644\u0641. \u0633\u064a\u062a\u0645 \u0641\u062a\u062d \u0645\u0644\u0641 \u0627\u0644\u062b\u0642\u0629.", analysisMessage);
+  window.location.href = analysisButton.getAttribute("href") || "trust-profile.html";
 });
 
 const updateDecisionPanel = (card) => {
