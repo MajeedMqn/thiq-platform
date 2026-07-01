@@ -294,7 +294,11 @@ input {
   border: 1px solid rgba(255, 255, 255, 0.78);
   border-radius: 8px;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(248, 255, 250, 0.86)),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(248, 255, 250, 0.86)
+    ),
     linear-gradient(135deg, rgba(201, 164, 92, 0.2), transparent);
   box-shadow: var(--shadow);
 }
@@ -305,7 +309,11 @@ input {
   inset: 10px;
   z-index: -1;
   border-radius: 8px;
-  background: linear-gradient(135deg, rgba(20, 83, 63, 0.22), rgba(201, 164, 92, 0.2));
+  background: linear-gradient(
+    135deg,
+    rgba(20, 83, 63, 0.22),
+    rgba(201, 164, 92, 0.2)
+  );
   transform: rotate(-2deg);
 }
 
@@ -360,7 +368,10 @@ input {
   border-radius: 50%;
   background:
     radial-gradient(circle at center, #123d32 0 57%, transparent 58%),
-    conic-gradient(var(--gold-2) var(--score-angle), rgba(255, 255, 255, 0.14) 0);
+    conic-gradient(
+      var(--gold-2) var(--score-angle),
+      rgba(255, 255, 255, 0.14) 0
+    );
 }
 
 .score-ring strong,
@@ -638,7 +649,12 @@ input {
   right: 9%;
   left: 9%;
   height: 2px;
-  background: linear-gradient(270deg, rgba(20, 83, 63, 0), rgba(201, 164, 92, 0.72), rgba(20, 83, 63, 0));
+  background: linear-gradient(
+    270deg,
+    rgba(20, 83, 63, 0),
+    rgba(201, 164, 92, 0.72),
+    rgba(20, 83, 63, 0)
+  );
   transform: translateY(-50%);
 }
 
@@ -818,8 +834,16 @@ input {
 
 .profile-page {
   background:
-    radial-gradient(circle at 18% 0%, rgba(201, 164, 92, 0.18), transparent 30%),
-    radial-gradient(circle at 84% 10%, rgba(31, 122, 90, 0.14), transparent 28%),
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(201, 164, 92, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 84% 10%,
+      rgba(31, 122, 90, 0.14),
+      transparent 28%
+    ),
     linear-gradient(180deg, #fffaf0 0%, #f6fbf5 46%, #ffffff 100%);
 }
 
@@ -1159,6 +1183,131 @@ input {
   color: var(--green);
   font-size: 22px;
   font-weight: 900;
+}
+
+/* ── Premium funding metric items ─────────────────────────── */
+.funding-metric-item {
+  min-height: 76px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid rgba(20, 83, 63, 0.14);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.82);
+  transition: box-shadow 0.2s;
+}
+
+.funding-metric-item:hover {
+  box-shadow: 0 4px 16px rgba(20, 83, 63, 0.08);
+}
+
+.funding-metric-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--muted);
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.funding-metric-label i {
+  font-size: 20px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.metric-low {
+  color: #1a8c58;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.metric-high {
+  color: var(--green);
+  font-size: 20px;
+  font-weight: 900;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.metric-high small {
+  font-size: 13px;
+  color: #5a7a6a;
+  font-weight: 700;
+}
+
+.metric-recommendation {
+  color: #2a6e4e;
+  font-size: 15px;
+  font-weight: 900;
+  text-align: left;
+}
+
+/* ── AI Insights improvements ─────────────────────────────── */
+.ai-summary-intro {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #3a4d47;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  background: rgba(245, 251, 244, 0.9);
+  border-right: 3px solid var(--green);
+  border-radius: 6px;
+}
+
+.ai-insights li.li-islamic {
+  background: rgba(249, 246, 230, 0.92);
+  border-color: rgba(170, 130, 30, 0.22);
+  color: #4a3a10;
+}
+
+.ai-insights li .islamic-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+/* ── AI Recommendation box ────────────────────────────────── */
+.ai-recommendation {
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 83, 63, 0.07),
+    rgba(20, 83, 63, 0.02)
+  );
+  border: 1.5px solid rgba(20, 83, 63, 0.2);
+  border-right: 4px solid var(--green);
+  border-radius: 10px;
+}
+
+.ai-recommendation-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.ai-recommendation-head i {
+  color: var(--green);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.ai-recommendation-head strong {
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a3d2f;
+}
+
+.ai-recommendation p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: #3a4d47;
 }
 
 .sharing-section {
@@ -1966,7 +2115,12 @@ input {
     left: auto;
     width: 2px;
     height: auto;
-    background: linear-gradient(180deg, rgba(20, 83, 63, 0), rgba(201, 164, 92, 0.72), rgba(20, 83, 63, 0));
+    background: linear-gradient(
+      180deg,
+      rgba(20, 83, 63, 0),
+      rgba(201, 164, 92, 0.72),
+      rgba(20, 83, 63, 0)
+    );
     transform: translateX(50%);
   }
 
@@ -2382,13 +2536,14 @@ i[class*=" ri-"] {
 }
 
 :is(
-  .feature-card,
-  .audience-card,
-  .verification-card,
-  .upload-card,
-  .evidence-grid article,
-  .funder-summary-grid article
-) > i {
+    .feature-card,
+    .audience-card,
+    .verification-card,
+    .upload-card,
+    .evidence-grid article,
+    .funder-summary-grid article
+  )
+  > i {
   width: 52px;
   height: 52px;
   border: 1px solid rgba(183, 138, 63, 0.16);
@@ -2475,7 +2630,12 @@ i[class*=" ri-"] {
   width: 36%;
   height: 100%;
   opacity: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.18),
+    transparent
+  );
   transform: skewX(-18deg);
   transition:
     right 0.5s ease,
@@ -2506,7 +2666,10 @@ i[class*=" ri-"] {
   animation: score-pulse 3.6s ease-in-out infinite;
   background:
     radial-gradient(circle at center, #0a4b3d 0 56%, transparent 57%),
-    conic-gradient(var(--gold-2) var(--score-angle), rgba(255, 255, 255, 0.12) 0);
+    conic-gradient(
+      var(--gold-2) var(--score-angle),
+      rgba(255, 255, 255, 0.12) 0
+    );
 }
 
 .profile-score-ring {
@@ -2797,7 +2960,11 @@ body {
 
 .trust-dashboard::before {
   inset: 12px;
-  background: linear-gradient(145deg, rgba(11, 93, 72, 0.17), rgba(183, 138, 63, 0.15));
+  background: linear-gradient(
+    145deg,
+    rgba(11, 93, 72, 0.17),
+    rgba(183, 138, 63, 0.15)
+  );
   transform: rotate(-1.3deg);
 }
 
