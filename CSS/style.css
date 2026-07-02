@@ -2156,12 +2156,31 @@ input {
   color: #d8f5e8;
 }
 
-/* Mobile overlay */
+/* ── Mobile overlay ──────────────────────────────────────── */
 @media (max-width: 500px) {
+  /* Allow vertical scroll so shell is never clipped by browser chrome */
+  .ai-overlay {
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Use dynamic viewport height + safe-area insets */
+    min-height: 100dvh;
+    padding-top: max(24px, env(safe-area-inset-top));
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    /* Keep centered horizontally */
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  /* Shell: no fixed min-height, let content dictate size */
   .ai-overlay-shell {
+    margin-top: auto;
+    margin-bottom: auto;
     padding: 28px 18px;
     gap: 16px;
+    min-height: unset;
   }
+
   .ai-phase-label { font-size: 18px; }
   .ai-overlay-ring { width: 130px; height: 130px; }
   .ai-overlay-ring::before { width: 104px; height: 104px; }
@@ -4686,5 +4705,36 @@ h2,
   .section-heading h2,
   .cta h2 {
     line-height: 1.32;
+  }
+}
+
+/* ----------------------------------------------------------
+   AI Analysis page � mobile layout (375px�430px)
+   ---------------------------------------------------------- */
+@media (max-width: 600px) {
+  /* Processing panel: no fixed full-height, allow scroll */
+  #ai-processing-panel {
+    min-height: 100dvh;
+    padding-top: max(24px, env(safe-area-inset-top));
+    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow-y: auto;
+  }
+
+  /* Step cards: comfortable on small screens */
+  .ai-steps-list {
+    gap: 10px;
+  }
+
+  .ai-step {
+    padding: 12px 14px;
+  }
+
+  /* Readiness card: comfortable padding on small screens */
+  .ai-readiness-panel {
+    padding: 16px 18px;
   }
 }
