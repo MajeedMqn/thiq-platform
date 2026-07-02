@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="تحليل المستندات بالذكاء الاصطناعي — يحلل ثِق العقود والفواتير والمستندات الموثقة لاستخراج مؤشرات الثقة المالية."
+    />
+    <title>تحليل AI | ثِق</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../CSS/style.css" />
+  </head>
+  <body class="profile-page ai-analysis-page">
+    <div class="demo-badge">نسخة تجريبية للهاكاثون</div>
+
+    <header class="profile-topbar">
+      <a class="brand" href="../index.html" aria-label="ثِق">
+        <img class="logo-img" src="../assets/logo.png" alt="ثِق" />
+        <span>
+          <strong>ثِق</strong>
+          <small>مؤشر الثقة المالية</small>
+        </span>
+      </a>
+      <div class="profile-topbar-actions">
+        <span class="verified profile-verified">
+          <i class="ri-sparkling-2-line"></i>
+          تحليل AI
+        </span>
+        <a class="btn secondary compact" href="upload-documents.html"
+          >رفع المستندات</a
+        >
+        <a class="btn secondary compact" href="../index.html">الرئيسية</a>
+      </div>
+    </header>
+
+    <main class="profile-shell ai-analysis-shell">
+      <!-- ── Hero ─────────────────────────────────────────── -->
+      <section class="upload-hero ai-analysis-hero">
+        <div>
+          <p class="eyebrow">
+            <i class="ri-brain-line"></i>
+            تحليل بالذكاء الاصطناعي
+          </p>
+          <h1>تحليل المستندات بالذكاء الاصطناعي</h1>
+          <p>
+            ارفع العقود والفواتير والمستندات الموثقة، ثم شاهد كيف يحلل ثِق
+            البيانات لاستخراج مؤشرات الثقة المالية.
+          </p>
+        </div>
+        <aside class="completion-card">
+          <div class="completion-head">
+            <span>جاهزية التحليل</span>
+            <strong id="ai-readiness-value">0%</strong>
+          </div>
+          <div class="progress-track" aria-label="جاهزية التحليل">
+            <span id="ai-readiness-bar" style="width: 0%"></span>
+          </div>
+          <p id="ai-readiness-hint">ارفع المستندات للبدء.</p>
+        </aside>
+      </section>
+
+      <!-- ── Upload section ─────────────────────────────── -->
+      <section class="profile-section ai-upload-section">
+        <div class="section-heading compact-heading">
+          <span>المستندات</span>
+          <h2>ارفع مستنداتك لبدء التحليل.</h2>
+        </div>
+
+        <div class="ai-upload-grid">
+          <label
+            class="ai-upload-card"
+            for="upload-contract"
+            tabindex="0"
+            role="button"
+            aria-label="رفع عقد"
+          >
+            <input
+              type="file"
+              id="upload-contract"
+              accept=".pdf,image/*"
+              data-ai-upload="contract"
+              class="visually-hidden"
+            />
+            <i class="ri-contract-line"></i>
+            <strong>عقد</strong>
+            <span class="ai-file-name" data-ai-file-name="contract"
+              >لم يُختر ملف</span
+            >
+          </label>
+
+          <label
+            class="ai-upload-card"
+            for="upload-invoice"
+            tabindex="0"
+            role="button"
+            aria-label="رفع فاتورة"
+          >
+            <input
+              type="file"
+              id="upload-invoice"
+              accept=".pdf,image/*"
+              data-ai-upload="invoice"
+              class="visually-hidden"
+            />
+            <i class="ri-bill-line"></i>
+            <strong>فاتورة</strong>
+            <span class="ai-file-name" data-ai-file-name="invoice"
+              >لم يُختر ملف</span
+            >
+          </label>
+
+          <label
+            class="ai-upload-card"
+            for="upload-achievement"
+            tabindex="0"
+            role="button"
+            aria-label="رفع إثبات إنجاز"
+          >
+            <input
+              type="file"
+              id="upload-achievement"
+              accept=".pdf,image/*"
+              data-ai-upload="achievement"
+              class="visually-hidden"
+            />
+            <i class="ri-award-line"></i>
+            <strong>إثبات إنجاز</strong>
+            <span class="ai-file-name" data-ai-file-name="achievement"
+              >لم يُختر ملف</span
+            >
+          </label>
+
+          <label
+            class="ai-upload-card"
+            for="upload-support"
+            tabindex="0"
+            role="button"
+            aria-label="رفع مستند داعم"
+          >
+            <input
+              type="file"
+              id="upload-support"
+              accept=".pdf,image/*"
+              data-ai-upload="support"
+              class="visually-hidden"
+            />
+            <i class="ri-folder-shield-2-line"></i>
+            <strong>مستند داعم</strong>
+            <span class="ai-file-name" data-ai-file-name="support"
+              >لم يُختر ملف</span
+            >
+          </label>
+        </div>
+
+        <div class="ai-start-row">
+          <button
+            class="btn primary ai-start-btn"
+            type="button"
+            id="ai-start-btn"
+          >
+            <i class="ri-sparkling-2-line"></i>
+            بدء التحليل بالذكاء الاصطناعي
+          </button>
+        </div>
+      </section>
+
+      <!-- ── Processing panel ───────────────────────────── -->
+      <section
+        class="profile-section ai-processing-panel"
+        id="ai-processing-panel"
+        hidden
+        aria-live="polite"
+      >
+        <div class="section-heading compact-heading">
+          <span>المعالجة</span>
+          <h2>جارٍ تحليل المستندات…</h2>
+        </div>
+
+        <ol class="ai-steps-list" id="ai-steps-list">
+          <li class="ai-step" data-step="0">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"><i class="ri-scan-2-line"></i></span>
+              <strong
+                >استخراج النصوص من المستندات
+                <span class="ai-step-tag">OCR</span></strong
+              >
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div class="progress-track ai-step-track" aria-label="OCR">
+              <span class="ai-step-bar" data-target="100"></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="1">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"
+                ><i class="ri-checkbox-circle-line"></i
+              ></span>
+              <strong>التحقق من اكتمال المستندات</strong>
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div
+              class="progress-track ai-step-track"
+              aria-label="اكتمال المستندات"
+            >
+              <span class="ai-step-bar" data-target="96"></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="2">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"
+                ><i class="ri-file-shield-2-line"></i
+              ></span>
+              <strong>تحليل بنود العقود</strong>
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div class="progress-track ai-step-track" aria-label="تحليل العقود">
+              <span class="ai-step-bar" data-target="92"></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="3">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"><i class="ri-exchange-line"></i></span>
+              <strong>مطابقة الفواتير مع العقود</strong>
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div
+              class="progress-track ai-step-track"
+              aria-label="مطابقة الفواتير"
+            >
+              <span class="ai-step-bar" data-target="88"></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="4">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"><i class="ri-eye-line"></i></span>
+              <strong>تقييم مستوى الشفافية</strong>
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div class="progress-track ai-step-track" aria-label="الشفافية">
+              <span class="ai-step-bar" data-target="91"></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="5">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"
+                ><i class="ri-shield-flash-line"></i
+              ></span>
+              <strong>فحص مؤشرات التلاعب</strong>
+              <span class="ai-step-pct ai-step-pct--text">—</span>
+            </div>
+            <div
+              class="progress-track ai-step-track"
+              aria-label="مؤشرات التلاعب"
+            >
+              <span
+                class="ai-step-bar"
+                data-target="0"
+                data-text="لا توجد مؤشرات عالية"
+              ></span>
+            </div>
+          </li>
+          <li class="ai-step" data-step="6">
+            <div class="ai-step-header">
+              <span class="ai-step-icon">🕌</span>
+              <strong>قياس التوافق مع مبادئ المالية الإسلامية</strong>
+              <span class="ai-step-pct">0%</span>
+            </div>
+            <div
+              class="progress-track ai-step-track"
+              aria-label="المالية الإسلامية"
+            >
+              <span class="ai-step-bar" data-target="94"></span>
+            </div>
+          </li>
+          <li class="ai-step ai-step--final" data-step="7">
+            <div class="ai-step-header">
+              <span class="ai-step-icon"><i class="ri-award-fill"></i></span>
+              <strong>إنشاء مؤشر ثِق</strong>
+              <span class="ai-step-pct">0/100</span>
+            </div>
+            <div class="progress-track ai-step-track" aria-label="مؤشر ثِق">
+              <span class="ai-step-bar" data-target="87"></span>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ── Results section ────────────────────────────── -->
+      <section
+        class="profile-section ai-results-section"
+        id="ai-results-section"
+        hidden
+      >
+        <div class="section-heading compact-heading">
+          <span>النتائج</span>
+          <h2>نتائج تحليل ثِق للمستندات.</h2>
+        </div>
+
+        <div class="ai-results-grid">
+          <div class="ai-result-card ai-result-card--score">
+            <span>مؤشر ثِق</span>
+            <strong>87<small>/100</small></strong>
+          </div>
+          <div class="ai-result-card">
+            <span>مستوى الثقة</span>
+            <strong class="metric-high">مرتفع</strong>
+          </div>
+          <div class="ai-result-card">
+            <span>مستوى المخاطر</span>
+            <strong class="metric-low">منخفض</strong>
+          </div>
+          <div class="ai-result-card">
+            <span>التوصية التمويلية</span>
+            <strong class="metric-recommendation"
+              >مناسب للدراسة المبدئية</strong
+            >
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="ai-recs-grid">
+          <article class="ai-rec-card ai-rec-card--strengths">
+            <div class="ai-rec-head">
+              <i class="ri-checkbox-circle-line"></i>
+              <strong>نقاط القوة</strong>
+            </div>
+            <ul>
+              <li>العقود واضحة البنود.</li>
+              <li>الفواتير متوافقة مع العقود.</li>
+              <li>المستندات تعكس نشاطاً اقتصادياً موثقاً.</li>
+              <li>يوجد توافق جيد مع مبادئ المالية الإسلامية.</li>
+            </ul>
+          </article>
+          <article class="ai-rec-card ai-rec-card--improve">
+            <div class="ai-rec-head">
+              <i class="ri-lightbulb-line"></i>
+              <strong>فرص التحسين</strong>
+            </div>
+            <ul>
+              <li>إضافة إثباتات دفع داعمة.</li>
+              <li>رفع عقود إضافية لزيادة دقة المؤشر.</li>
+              <li>توثيق المزيد من المستندات المرتبطة بالنشاط.</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- AI Final recommendation box -->
+        <div class="ai-recommendation">
+          <div class="ai-recommendation-head">
+            <i class="ri-sparkling-2-line"></i>
+            <strong>التوصية النهائية للذكاء الاصطناعي</strong>
+          </div>
+          <p>
+            يحقق الملف مستوى مرتفعاً من الشفافية والموثوقية المالية، ويوصى
+            باستخدام مؤشر ثِق كعامل داعم عند اتخاذ القرار التمويلي، دون أن يكون
+            بديلاً عن أدوات التقييم الائتماني التقليدية.
+          </p>
+        </div>
+
+        <!-- CTA buttons -->
+        <div class="ai-cta-row">
+          <a class="btn primary" href="trust-profile.html">
+            <i class="ri-user-star-line"></i>
+            عرض ملف الثقة
+          </a>
+          <a class="btn secondary" href="upload-documents.html">
+            <i class="ri-upload-cloud-2-line"></i>
+            العودة للرفع
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script src="../js/app.js"></script>
+    <script>
+      // ── AI Analysis demo logic ─────────────────────────────────────────
+      (function () {
+        const AI_STORAGE_KEY = "thiq-ai-files";
+        const STEP_DELAY = 900; // ms between steps
+        const BAR_DURATION = 700; // ms for each bar to fill
+
+        const startBtn = document.getElementById("ai-start-btn");
+        const panel = document.getElementById("ai-processing-panel");
+        const results = document.getElementById("ai-results-section");
+        const steps = document.querySelectorAll(".ai-step");
+        const fileInputs = document.querySelectorAll("[data-ai-upload]");
+        const readValue = document.getElementById("ai-readiness-value");
+        const readBar = document.getElementById("ai-readiness-bar");
+        const readHint = document.getElementById("ai-readiness-hint");
+
+        // ── Restore saved file names ──────────────────────────────────
+        const savedFiles = (() => {
+          try {
+            return JSON.parse(localStorage.getItem(AI_STORAGE_KEY) || "{}");
+          } catch {
+            return {};
+          }
+        })();
+
+        const updateReadiness = () => {
+          const total = fileInputs.length;
+          const filled = Object.values(savedFiles).filter(Boolean).length;
+          const pct = Math.round((filled / total) * 100);
+          if (readValue) readValue.textContent = pct + "%";
+          if (readBar) readBar.style.width = pct + "%";
+          if (readHint) {
+            readHint.textContent =
+              filled === 0
+                ? "ارفع المستندات للبدء."
+                : filled < total
+                  ? `تم رفع ${filled} من ${total} مستندات. أضف المزيد لرفع الدقة.`
+                  : "جميع المستندات جاهزة. ابدأ التحليل.";
+          }
+        };
+
+        fileInputs.forEach((input) => {
+          const key = input.dataset.aiUpload;
+          const nameEl = document.querySelector(`[data-ai-file-name="${key}"]`);
+          const card = input.closest(".ai-upload-card");
+
+          // Restore from localStorage
+          if (savedFiles[key] && nameEl) {
+            nameEl.textContent = savedFiles[key];
+            card?.classList.add("ai-upload-card--selected");
+          }
+
+          input.addEventListener("change", () => {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            savedFiles[key] = file.name;
+            try {
+              localStorage.setItem(AI_STORAGE_KEY, JSON.stringify(savedFiles));
+            } catch {}
+            if (nameEl) nameEl.textContent = file.name;
+            card?.classList.add("ai-upload-card--selected");
+            updateReadiness();
+          });
+        });
+
+        updateReadiness();
+
+        // ── Animate a single step bar ─────────────────────────────────
+        const animateBar = (step, onDone) => {
+          const bar = step.querySelector(".ai-step-bar");
+          const pctEl = step.querySelector(".ai-step-pct");
+          if (!bar) {
+            if (onDone) onDone();
+            return;
+          }
+
+          const target = Number(bar.dataset.target || "0");
+          const text = bar.dataset.text || null;
+          const isFinal = step.classList.contains("ai-step--final");
+          const isTamper = target === 0 && text;
+
+          step.classList.add("ai-step--active");
+
+          if (isTamper) {
+            // Special: no numeric bar, just show green with text
+            setTimeout(() => {
+              bar.style.width = "100%";
+              bar.classList.add("ai-step-bar--safe");
+              if (pctEl) pctEl.textContent = text;
+              step.classList.add("ai-step--done");
+              if (onDone) onDone();
+            }, BAR_DURATION / 2);
+            return;
+          }
+
+          const start = performance.now();
+          const tick = (now) => {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / BAR_DURATION, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+
+            bar.style.width = `${current}%`;
+            if (pctEl) {
+              pctEl.textContent = isFinal ? `${current}/100` : `${current}%`;
+            }
+
+            if (progress < 1) {
+              requestAnimationFrame(tick);
+            } else {
+              step.classList.add("ai-step--done");
+              if (onDone) onDone();
+            }
+          };
+          requestAnimationFrame(tick);
+        };
+
+        // ── Run all steps sequentially ────────────────────────────────
+        const runSteps = () => {
+          let i = 0;
+          const next = () => {
+            if (i >= steps.length) {
+              // All done — show results then scroll to them
+              setTimeout(() => {
+                results.hidden = false;
+                results.scrollIntoView({ behavior: "smooth", block: "start" });
+              }, 400);
+              return;
+            }
+            const step = steps[i++];
+            setTimeout(() => animateBar(step, next), i === 1 ? 0 : STEP_DELAY);
+          };
+          next();
+        };
+
+        // ── Start button ──────────────────────────────────────────────
+        startBtn?.addEventListener("click", () => {
+          startBtn.disabled = true;
+          startBtn.innerHTML =
+            '<i class="ri-loader-4-line ri-spin"></i> جارٍ التحليل…';
+
+          panel.hidden = false;
+          results.hidden = true;
+
+          // Scroll to processing panel immediately
+          panel.scrollIntoView({ behavior: "smooth", block: "start" });
+
+          // Reset steps
+          steps.forEach((step) => {
+            const bar = step.querySelector(".ai-step-bar");
+            const pctEl = step.querySelector(".ai-step-pct");
+            step.classList.remove("ai-step--active", "ai-step--done");
+            if (bar) bar.style.width = "0%";
+            if (pctEl && !pctEl.classList.contains("ai-step-pct--text"))
+              pctEl.textContent = "0%";
+            if (step.classList.contains("ai-step--final") && pctEl)
+              pctEl.textContent = "0/100";
+          });
+
+          // Delay animation start until scroll lands
+          setTimeout(runSteps, 500);
+        });
+      })();
+    </script>
+  </body>
+</html>

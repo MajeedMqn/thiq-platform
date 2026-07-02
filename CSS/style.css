@@ -1310,6 +1310,351 @@ input {
   color: #3a4d47;
 }
 
+/* ══════════════════════════════════════════════════════════
+   AI Analysis page
+   ══════════════════════════════════════════════════════════ */
+
+/* Visually hidden for accessible file inputs */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Upload grid */
+.ai-upload-section {
+  padding-top: 30px;
+}
+
+.ai-upload-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.ai-upload-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 26px 16px 20px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1.5px dashed rgba(20, 83, 63, 0.25);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.ai-upload-card:hover,
+.ai-upload-card:focus-within {
+  border-color: var(--green);
+  background: rgba(245, 251, 244, 0.95);
+  box-shadow: 0 4px 18px rgba(20, 83, 63, 0.1);
+}
+
+.ai-upload-card--selected {
+  border-style: solid;
+  border-color: var(--green);
+  background: rgba(240, 252, 243, 0.95);
+}
+
+.ai-upload-card i {
+  font-size: 32px;
+  color: var(--green);
+}
+
+.ai-upload-card strong {
+  font-size: 16px;
+  font-weight: 900;
+  color: #1a3d2f;
+}
+
+.ai-file-name {
+  font-size: 12px;
+  color: var(--muted);
+  word-break: break-all;
+  max-width: 100%;
+}
+
+/* Start row */
+.ai-start-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.ai-start-btn {
+  min-width: 260px;
+  font-size: 17px;
+  gap: 10px;
+}
+
+/* Processing panel steps */
+.ai-steps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.ai-step {
+  padding: 16px 18px;
+  border: 1px solid rgba(20, 83, 63, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.75);
+  opacity: 0.45;
+  transition:
+    opacity 0.3s,
+    box-shadow 0.3s;
+}
+
+.ai-step--active,
+.ai-step--done {
+  opacity: 1;
+}
+
+.ai-step--done {
+  border-color: rgba(20, 83, 63, 0.3);
+  background: rgba(242, 252, 244, 0.9);
+}
+
+.ai-step--final.ai-step--done {
+  border-color: var(--green);
+  box-shadow: 0 4px 18px rgba(20, 83, 63, 0.12);
+}
+
+.ai-step-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.ai-step-icon {
+  font-size: 20px;
+  color: var(--green);
+  flex-shrink: 0;
+  line-height: 1;
+  min-width: 24px;
+  text-align: center;
+}
+
+.ai-step-header strong {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a3d2f;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.ai-step-tag {
+  display: inline-block;
+  padding: 1px 7px;
+  background: var(--green);
+  color: #fff;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  vertical-align: middle;
+}
+
+.ai-step-pct {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--green);
+  white-space: nowrap;
+  min-width: 54px;
+  text-align: left;
+}
+
+.ai-step-pct--text {
+  font-size: 13px;
+  text-align: left;
+}
+
+.ai-step-track {
+  margin: 0;
+}
+
+.ai-step-bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--green), #3bb87a);
+  border-radius: inherit;
+  transition: width 50ms linear;
+}
+
+.ai-step-bar--safe {
+  background: linear-gradient(90deg, #1a8c58, #3bb87a);
+}
+
+/* Spinner keyframe */
+@keyframes ri-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ri-spin {
+  display: inline-block;
+  animation: ri-spin 0.8s linear infinite;
+}
+
+/* Results grid */
+.ai-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.ai-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 18px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(20, 83, 63, 0.14);
+  border-radius: 10px;
+}
+
+.ai-result-card span {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.ai-result-card strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--green);
+}
+
+.ai-result-card--score strong {
+  font-size: 36px;
+}
+
+.ai-result-card--score small {
+  font-size: 18px;
+  color: #5a7a6a;
+}
+
+/* Recommendations grid */
+.ai-recs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.ai-rec-card {
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid rgba(20, 83, 63, 0.14);
+}
+
+.ai-rec-card--strengths {
+  background: rgba(242, 252, 244, 0.9);
+  border-color: rgba(20, 83, 63, 0.2);
+}
+
+.ai-rec-card--improve {
+  background: rgba(249, 246, 230, 0.88);
+  border-color: rgba(170, 130, 30, 0.18);
+}
+
+.ai-rec-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.ai-rec-head i {
+  font-size: 20px;
+  color: var(--green);
+}
+
+.ai-rec-card--improve .ai-rec-head i {
+  color: #9a7a10;
+}
+
+.ai-rec-head strong {
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a3d2f;
+}
+
+.ai-rec-card ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 8px;
+}
+
+.ai-rec-card li {
+  font-size: 14.5px;
+  color: #3a4d47;
+  padding-right: 14px;
+  position: relative;
+  line-height: 1.7;
+}
+
+.ai-rec-card li::before {
+  content: "•";
+  position: absolute;
+  right: 0;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.ai-rec-card--improve li::before {
+  color: #9a7a10;
+}
+
+/* CTA row */
+.ai-cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+/* ── responsive ─────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .ai-upload-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ai-cta-row {
+    flex-direction: column;
+  }
+
+  .ai-step-header {
+    flex-wrap: wrap;
+  }
+}
+
 .sharing-section {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(300px, 390px);
