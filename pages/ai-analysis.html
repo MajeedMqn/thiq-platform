@@ -162,11 +162,20 @@
           </label>
         </div>
 
+        <div
+          id="ai-file-status"
+          class="ai-file-status"
+          hidden
+          aria-live="polite"
+        ></div>
+
         <div class="ai-start-row">
           <button
             class="btn primary ai-start-btn"
             type="button"
             id="ai-start-btn"
+            disabled
+            title="يجب رفع عقد وفاتورة على الأقل للبدء"
           >
             <i class="ri-sparkling-2-line"></i>
             بدء التحليل بالذكاء الاصطناعي
@@ -295,6 +304,34 @@
         </ol>
       </section>
 
+      <!-- ── OCR Extraction panel ──────────────────────────── -->
+      <section
+        class="profile-section ai-ocr-section"
+        id="ai-ocr-section"
+        hidden
+        aria-live="polite"
+      >
+        <div class="section-heading compact-heading">
+          <span>الاستخراج</span>
+          <h2>البيانات المستخرجة من المستندات.</h2>
+        </div>
+        <div id="ai-ocr-groups" class="ai-ocr-groups"></div>
+      </section>
+
+      <!-- ── Matching panel ────────────────────────────────── -->
+      <section
+        class="profile-section ai-matching-section"
+        id="ai-matching-section"
+        hidden
+        aria-live="polite"
+      >
+        <div class="section-heading compact-heading">
+          <span>المطابقة</span>
+          <h2>مطابقة البيانات بين المستندات.</h2>
+        </div>
+        <ul id="ai-matching-list" class="ai-matching-list"></ul>
+      </section>
+
       <!-- ── Results section ────────────────────────────── -->
       <section
         class="profile-section ai-results-section"
@@ -309,19 +346,21 @@
         <div class="ai-results-grid">
           <div class="ai-result-card ai-result-card--score">
             <span>مؤشر ثِق</span>
-            <strong>87<small>/100</small></strong>
+            <strong id="ai-result-score-value">87<small>/100</small></strong>
           </div>
           <div class="ai-result-card">
             <span>مستوى الثقة</span>
-            <strong class="metric-high">مرتفع</strong>
+            <strong id="ai-result-trust-value" class="metric-high"
+              >مرتفع</strong
+            >
           </div>
           <div class="ai-result-card">
             <span>مستوى المخاطر</span>
-            <strong class="metric-low">منخفض</strong>
+            <strong id="ai-result-risk-value" class="metric-low">منخفض</strong>
           </div>
           <div class="ai-result-card">
             <span>التوصية التمويلية</span>
-            <strong class="metric-recommendation"
+            <strong id="ai-result-rec-value" class="metric-recommendation"
               >مناسب للدراسة المبدئية</strong
             >
           </div>
@@ -334,7 +373,7 @@
               <i class="ri-checkbox-circle-line"></i>
               <strong>نقاط القوة</strong>
             </div>
-            <ul>
+            <ul id="ai-strengths-list">
               <li>العقود واضحة البنود.</li>
               <li>الفواتير متوافقة مع العقود.</li>
               <li>المستندات تعكس نشاطاً اقتصادياً موثقاً.</li>
@@ -346,7 +385,7 @@
               <i class="ri-lightbulb-line"></i>
               <strong>فرص التحسين</strong>
             </div>
-            <ul>
+            <ul id="ai-improvements-list">
               <li>إضافة إثباتات دفع داعمة.</li>
               <li>رفع عقود إضافية لزيادة دقة المؤشر.</li>
               <li>توثيق المزيد من المستندات المرتبطة بالنشاط.</li>
@@ -360,7 +399,7 @@
             <i class="ri-sparkling-2-line"></i>
             <strong>التوصية النهائية للذكاء الاصطناعي</strong>
           </div>
-          <p>
+          <p id="ai-final-rec-text">
             يحقق الملف مستوى مرتفعاً من الشفافية والموثوقية المالية، ويوصى
             باستخدام مؤشر ثِق كعامل داعم عند اتخاذ القرار التمويلي، دون أن يكون
             بديلاً عن أدوات التقييم الائتماني التقليدية.
@@ -381,14 +420,71 @@
       </section>
     </main>
 
+    <!-- ══ Full-screen AI Explainability Overlay ══════════════════════ -->
+    <div
+      id="ai-overlay"
+      class="ai-overlay"
+      hidden
+      aria-modal="true"
+      role="dialog"
+      aria-label="تحليل الذكاء الاصطناعي"
+    >
+      <!-- glow lines -->
+      <div class="ai-overlay-glow ai-overlay-glow--1" aria-hidden="true"></div>
+      <div class="ai-overlay-glow ai-overlay-glow--2" aria-hidden="true"></div>
+
+      <div class="ai-overlay-shell">
+        <!-- brand badge -->
+        <div class="ai-overlay-brand">
+          <i class="ri-sparkling-2-line"></i>
+          <span>ثِق AI</span>
+        </div>
+
+        <!-- phase label -->
+        <p class="ai-phase-label" id="ai-phase-label">&nbsp;</p>
+
+        <!-- file list (phase 1 – reading files) -->
+        <ul class="ai-overlay-filelist" id="ai-overlay-filelist" hidden></ul>
+
+        <!-- extraction stream (phase 2 – OCR) -->
+        <div class="ai-overlay-stream" id="ai-overlay-stream" hidden>
+          <div class="ai-stream-title" id="ai-stream-title"></div>
+          <div class="ai-stream-rows" id="ai-stream-rows"></div>
+        </div>
+
+        <!-- check list (phase 3 – matching / risk / Islamic) -->
+        <ul class="ai-overlay-checks" id="ai-overlay-checks" hidden></ul>
+
+        <!-- score ring (phase 4 – trust index) -->
+        <div class="ai-overlay-score" id="ai-overlay-score" hidden>
+          <div class="ai-overlay-ring" id="ai-overlay-ring">
+            <strong id="ai-overlay-ring-value">0</strong>
+            <span>/ 100</span>
+          </div>
+          <p class="ai-overlay-score-label" id="ai-overlay-score-label">
+            مؤشر ثِق
+          </p>
+        </div>
+
+        <!-- success message (phase 5) -->
+        <div class="ai-overlay-success" id="ai-overlay-success" hidden>
+          <i class="ri-checkbox-circle-fill"></i>
+          <strong>تم إنشاء مؤشر ثِق بنجاح</strong>
+        </div>
+      </div>
+    </div>
+    <!-- ════════════════════════════════════════════════════════════════ -->
     <script src="../js/app.js"></script>
     <script>
-      // ── AI Analysis demo logic ─────────────────────────────────────────
+      // ── AI Analysis — Smart Demo Validation ───────────────────────────
       (function () {
+        "use strict";
         const AI_STORAGE_KEY = "thiq-ai-files";
-        const STEP_DELAY = 900; // ms between steps
-        const BAR_DURATION = 700; // ms for each bar to fill
+        const STEP_DELAY = 900;
+        const BAR_DURATION = 700;
+        const ALLOWED_EXTS = ["pdf", "jpg", "jpeg", "png"];
 
+        // ── DOM refs ────────────────────────────────────────────────────
         const startBtn = document.getElementById("ai-start-btn");
         const panel = document.getElementById("ai-processing-panel");
         const results = document.getElementById("ai-results-section");
@@ -397,8 +493,20 @@
         const readValue = document.getElementById("ai-readiness-value");
         const readBar = document.getElementById("ai-readiness-bar");
         const readHint = document.getElementById("ai-readiness-hint");
+        const fileStatus = document.getElementById("ai-file-status");
+        const resScore = document.getElementById("ai-result-score-value");
+        const resTrust = document.getElementById("ai-result-trust-value");
+        const resRisk = document.getElementById("ai-result-risk-value");
+        const resRec = document.getElementById("ai-result-rec-value");
+        const strengthsEl = document.getElementById("ai-strengths-list");
+        const improveEl = document.getElementById("ai-improvements-list");
+        const finalRecEl = document.getElementById("ai-final-rec-text");
+        const ocrSection = document.getElementById("ai-ocr-section");
+        const ocrGroups = document.getElementById("ai-ocr-groups");
+        const matchSection = document.getElementById("ai-matching-section");
+        const matchingList = document.getElementById("ai-matching-list");
 
-        // ── Restore saved file names ──────────────────────────────────
+        // ── Saved file state ────────────────────────────────────────────
         const savedFiles = (() => {
           try {
             return JSON.parse(localStorage.getItem(AI_STORAGE_KEY) || "{}");
@@ -407,12 +515,143 @@
           }
         })();
 
-        const updateReadiness = () => {
-          const total = fileInputs.length;
-          const filled = Object.values(savedFiles).filter(Boolean).length;
-          const pct = Math.round((filled / total) * 100);
+        // ── Labels & required keys ───────────────────────────────────────
+        const FILE_LABELS = {
+          contract: "عقد",
+          invoice: "فاتورة",
+          achievement: "إثبات إنجاز",
+          support: "مستند داعم",
+        };
+        const REQUIRED = ["contract", "invoice"];
+
+        // ── Score configs (first match wins, most files first) ───────────
+        const CONFIGS = [
+          {
+            condition: (f) =>
+              f.contract && f.invoice && f.achievement && f.support,
+            completion: 100,
+            stepTargets: [100, 96, 92, 88, 91, 0, 94, 87],
+            trust: "مرتفع",
+            trustCls: "metric-high",
+            risk: "منخفض",
+            riskCls: "metric-low",
+            rec: "مناسب للدراسة المبدئية",
+            recCls: "metric-recommendation",
+            strengths: [
+              "العقود واضحة البنود.",
+              "الفواتير متوافقة مع العقود.",
+              "المستندات تعكس نشاطاً اقتصادياً موثقاً.",
+              "يوجد توافق جيد مع مبادئ المالية الإسلامية.",
+            ],
+            improve: [
+              "رفع عقود إضافية لزيادة دقة المؤشر.",
+              "توثيق المزيد من المستندات المرتبطة بالنشاط.",
+            ],
+            finalRec:
+              "يحقق الملف مستوى مرتفعاً من الشفافية والموثوقية المالية، ويوصى باستخدام مؤشر ثِق كعامل داعم عند اتخاذ القرار التمويلي، دون أن يكون بديلاً عن أدوات التقييم الائتماني التقليدية.",
+          },
+          {
+            condition: (f) => f.contract && f.invoice && f.achievement,
+            completion: 75,
+            stepTargets: [100, 88, 91, 87, 88, 0, 90, 81],
+            trust: "جيد",
+            trustCls: "metric-high",
+            risk: "منخفضة نسبياً",
+            riskCls: "metric-low",
+            rec: "مناسب للدراسة الأولية",
+            recCls: "metric-recommendation",
+            strengths: [
+              "العقد واضح البنود.",
+              "الفاتورة متوافقة مع العقد.",
+              "إثبات الإنجاز يعكس نشاطاً موثقاً.",
+            ],
+            improve: [
+              "إضافة مستند داعم لرفع نسبة الاكتمال إلى 100%.",
+              "رفع عقود إضافية لزيادة دقة المؤشر.",
+            ],
+            finalRec:
+              "يُظهر الملف مستوى جيداً من الموثوقية. إضافة مستند داعم واحد إضافي سيرفع مؤشر ثِق إلى المستوى الأعلى.",
+          },
+          {
+            condition: (f) => f.contract && f.invoice,
+            completion: 50,
+            stepTargets: [100, 78, 88, 82, 80, 0, 85, 72],
+            trust: "مقبول",
+            trustCls: "",
+            risk: "معتدلة",
+            riskCls: "",
+            rec: "مناسب للمراجعة الأولية",
+            recCls: "metric-recommendation",
+            strengths: ["العقد واضح البنود.", "الفاتورة متوافقة مع العقد."],
+            improve: [
+              "رفع إثبات إنجاز لدعم صحة النشاط.",
+              "إضافة مستند داعم لزيادة اكتمال الملف.",
+              "توثيق مزيد من المستندات المرتبطة بالنشاط.",
+            ],
+            finalRec:
+              "يظهر الملف توافقاً أساسياً بين العقد والفاتورة. إضافة إثباتات إنجاز ومستندات داعمة سترفع مؤشر الثقة بشكل ملحوظ.",
+          },
+          {
+            condition: (f) => f.contract,
+            completion: 25,
+            stepTargets: [100, 60, 82, 0, 65, 0, 78, 58],
+            trust: "متوسط",
+            trustCls: "",
+            risk: "متوسطة",
+            riskCls: "",
+            rec: "يحتاج مراجعة إضافية",
+            recCls: "",
+            strengths: ["العقد يحتوي على بنود أساسية واضحة."],
+            improve: [
+              "رفع فاتورة مرتبطة بالعقد.",
+              "رفع إثبات إنجاز لزيادة المصداقية.",
+              "إضافة مستندات داعمة لرفع دقة المؤشر.",
+            ],
+            finalRec:
+              "يحتوي الملف على عقد لكنه يفتقر إلى مستندات داعمة كافية. يُنصح برفع فاتورة على الأقل قبل مشاركة الملف مع الجهات التمويلية.",
+          },
+        ];
+
+        const getConfig = () =>
+          CONFIGS.find((c) => c.condition(savedFiles)) || null;
+        const canAnalyze = () => REQUIRED.every((k) => Boolean(savedFiles[k]));
+        const isAllowed = (name) =>
+          ALLOWED_EXTS.includes(name.split(".").pop().toLowerCase());
+
+        // ── File status panel ────────────────────────────────────────────
+        const updateFileStatus = () => {
+          if (!fileStatus) return;
+          const keys = Object.keys(FILE_LABELS);
+          const hasAny = keys.some((k) => savedFiles[k]);
+          if (!hasAny) {
+            fileStatus.hidden = true;
+            return;
+          }
+          fileStatus.hidden = false;
+          fileStatus.innerHTML = keys
+            .map((k) => {
+              const ok = Boolean(savedFiles[k]);
+              const cls = ok
+                ? "ai-file-status-item--ok"
+                : "ai-file-status-item--warn";
+              const icon = ok ? "✓" : "⚠";
+              const label = ok
+                ? `تم اكتشاف ${FILE_LABELS[k]}`
+                : `لم يتم رفع ${FILE_LABELS[k]}`;
+              return `<span class="ai-file-status-item ${cls}"><b>${icon}</b> ${label}</span>`;
+            })
+            .join("");
+        };
+
+        // ── Readiness card + button gate ─────────────────────────────────
+        const updateUI = () => {
+          const cfg = getConfig();
+          const pct = cfg ? cfg.completion : 0;
           if (readValue) readValue.textContent = pct + "%";
           if (readBar) readBar.style.width = pct + "%";
+
+          const filled = Object.values(savedFiles).filter(Boolean).length;
+          const total = fileInputs.length;
           if (readHint) {
             readHint.textContent =
               filled === 0
@@ -421,35 +660,491 @@
                   ? `تم رفع ${filled} من ${total} مستندات. أضف المزيد لرفع الدقة.`
                   : "جميع المستندات جاهزة. ابدأ التحليل.";
           }
+          updateFileStatus();
+          if (startBtn) {
+            const ok = canAnalyze();
+            startBtn.disabled = !ok;
+            startBtn.title = ok ? "" : "يجب رفع عقد وفاتورة على الأقل للبدء";
+          }
         };
 
-        fileInputs.forEach((input) => {
-          const key = input.dataset.aiUpload;
-          const nameEl = document.querySelector(`[data-ai-file-name="${key}"]`);
-          const card = input.closest(".ai-upload-card");
-
-          // Restore from localStorage
-          if (savedFiles[key] && nameEl) {
-            nameEl.textContent = savedFiles[key];
-            card?.classList.add("ai-upload-card--selected");
+        // ── Storage key for rich metadata ────────────────────────────────
+        const AI_META_KEY = "thiq-ai-file-meta";
+        const savedMeta = (() => {
+          try {
+            return JSON.parse(localStorage.getItem(AI_META_KEY) || "{}");
+          } catch (e) {
+            return {};
           }
+        })();
 
-          input.addEventListener("change", () => {
-            const file = input.files && input.files[0];
+        // Helper: persist both stores
+        const persistFile = (key, file) => {
+          savedFiles[key] = file.name;
+          savedMeta[key] = {
+            name: file.name,
+            type: file.type || "unknown",
+            size: file.size,
+            category: FILE_LABELS[key] || key,
+          };
+          try {
+            localStorage.setItem(AI_STORAGE_KEY, JSON.stringify(savedFiles));
+          } catch (e) {}
+          try {
+            localStorage.setItem(AI_META_KEY, JSON.stringify(savedMeta));
+          } catch (e) {}
+        };
+
+        // Helper: apply visual state to a single upload card
+        const applyCardState = (key) => {
+          const input = document.querySelector(`[data-ai-upload="${key}"]`);
+          const nameEl = document.querySelector(`[data-ai-file-name="${key}"]`);
+          const card = input ? input.closest(".ai-upload-card") : null;
+          if (!input || !nameEl) return;
+
+          const fileName = savedFiles[key];
+          if (fileName) {
+            nameEl.textContent = fileName;
+            nameEl.title = fileName;
+            if (card) card.classList.add("ai-upload-card--selected");
+          } else {
+            nameEl.textContent = "لم يُختر ملف";
+            nameEl.title = "";
+            if (card) card.classList.remove("ai-upload-card--selected");
+          }
+        };
+
+        // ── Wire file inputs ─────────────────────────────────────────────
+        // Restore persisted state first
+        Object.keys(FILE_LABELS).forEach((key) => applyCardState(key));
+
+        fileInputs.forEach((input) => {
+          input.addEventListener("change", function () {
+            const file = this.files && this.files[0];
             if (!file) return;
-            savedFiles[key] = file.name;
-            try {
-              localStorage.setItem(AI_STORAGE_KEY, JSON.stringify(savedFiles));
-            } catch {}
-            if (nameEl) nameEl.textContent = file.name;
-            card?.classList.add("ai-upload-card--selected");
-            updateReadiness();
+            if (!isAllowed(file.name)) {
+              alert("نوع الملف غير مدعوم. المسموح به: PDF, JPG, JPEG, PNG");
+              this.value = "";
+              return;
+            }
+            const key = this.dataset.aiUpload;
+            persistFile(key, file);
+            applyCardState(key);
+            updateUI();
           });
         });
 
-        updateReadiness();
+        updateUI();
 
-        // ── Animate a single step bar ─────────────────────────────────
+        // ── Apply config to result DOM ────────────────────────────────────
+        const applyConfig = (cfg) => {
+          const score = cfg.stepTargets[7];
+          if (resScore) resScore.innerHTML = `${score}<small>/100</small>`;
+          if (resTrust) {
+            resTrust.textContent = cfg.trust;
+            resTrust.className = cfg.trustCls;
+          }
+          if (resRisk) {
+            resRisk.textContent = cfg.risk;
+            resRisk.className = cfg.riskCls;
+          }
+          if (resRec) {
+            resRec.textContent = cfg.rec;
+            resRec.className = cfg.recCls;
+          }
+          if (strengthsEl)
+            strengthsEl.innerHTML = cfg.strengths
+              .map((s) => `<li>${s}</li>`)
+              .join("");
+          if (improveEl)
+            improveEl.innerHTML = cfg.improve
+              .map((s) => `<li>${s}</li>`)
+              .join("");
+          if (finalRecEl) finalRecEl.textContent = cfg.finalRec;
+
+          // Update step bar targets dynamically
+          const bars = document.querySelectorAll(".ai-step-bar");
+          bars.forEach((bar, i) => {
+            if (i < cfg.stepTargets.length)
+              bar.dataset.target = String(cfg.stepTargets[i]);
+          });
+          // Invoice bar (index 3): show label text when target is 0
+          if (bars[3]) {
+            if (cfg.stepTargets[3] === 0) bars[3].dataset.text = "لم يُرفع";
+            else delete bars[3].dataset.text;
+          }
+        };
+
+        // ── Overlay DOM refs ─────────────────────────────────────────────
+        const overlay = document.getElementById("ai-overlay");
+        const phaseLabel = document.getElementById("ai-phase-label");
+        const overlayFiles = document.getElementById("ai-overlay-filelist");
+        const streamEl = document.getElementById("ai-overlay-stream");
+        const streamTitle = document.getElementById("ai-stream-title");
+        const streamRows = document.getElementById("ai-stream-rows");
+        const checksEl = document.getElementById("ai-overlay-checks");
+        const scoreBox = document.getElementById("ai-overlay-score");
+        const ringEl = document.getElementById("ai-overlay-ring");
+        const ringValue = document.getElementById("ai-overlay-ring-value");
+        const successEl = document.getElementById("ai-overlay-success");
+
+        // ── Overlay helpers ──────────────────────────────────────────────
+        const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
+        const setPhase = (text) => {
+          if (!phaseLabel) return;
+          phaseLabel.style.opacity = "0";
+          setTimeout(() => {
+            phaseLabel.textContent = text;
+            phaseLabel.style.opacity = "1";
+          }, 200);
+        };
+
+        const hideAllPanels = () => {
+          if (overlayFiles) overlayFiles.hidden = true;
+          if (streamEl) streamEl.hidden = true;
+          if (checksEl) checksEl.hidden = true;
+          if (scoreBox) scoreBox.hidden = true;
+          if (successEl) successEl.hidden = true;
+        };
+
+        // Append an item to a <ul> with a fade-in delay
+        const appendLi = (ul, html, cls, delayMs) =>
+          new Promise((res) => {
+            setTimeout(() => {
+              const li = document.createElement("li");
+              if (cls) li.className = cls;
+              li.innerHTML = html;
+              ul.appendChild(li);
+              requestAnimationFrame(() => li.classList.add("ov-item--in"));
+              res();
+            }, delayMs);
+          });
+
+        // Append a stream row (label | value ✓)
+        const appendRow = (label, value, delayMs) =>
+          new Promise((res) => {
+            setTimeout(() => {
+              const row = document.createElement("div");
+              row.className = "ai-stream-row";
+              row.innerHTML =
+                `<span class="sr-label">${label}</span>` +
+                `<span class="sr-value">${value}</span>` +
+                `<span class="sr-check">✓</span>`;
+              streamRows.appendChild(row);
+              requestAnimationFrame(() => row.classList.add("sr-row--in"));
+              res();
+            }, delayMs);
+          });
+
+        // Animate the score ring counter
+        const animateRing = (target, duration) =>
+          new Promise((res) => {
+            const start = performance.now();
+            const tick = (now) => {
+              const p = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const val = Math.round(target * eased);
+              if (ringValue) ringValue.textContent = String(val);
+              if (ringEl) {
+                const deg = (val / 100) * 360;
+                ringEl.style.setProperty("--ring-deg", deg + "deg");
+              }
+              if (p < 1) requestAnimationFrame(tick);
+              else res();
+            };
+            requestAnimationFrame(tick);
+          });
+
+        // ── Main overlay sequence ────────────────────────────────────────
+        const runOverlay = async (files, score) => {
+          overlay.hidden = false;
+          document.body.style.overflow = "hidden";
+          hideAllPanels();
+
+          // ─ Phase 0: Init engine
+          setPhase("تهيئة محرك الذكاء الاصطناعي...");
+          await delay(1400);
+
+          // ─ Phase 1: Reading files
+          setPhase("قراءة المستندات...");
+          overlayFiles.hidden = false;
+          overlayFiles.innerHTML = "";
+          const fileKeys = Object.keys(FILE_LABELS);
+          const uploadedKeys = fileKeys.filter((k) => files[k]);
+          for (let i = 0; i < uploadedKeys.length; i++) {
+            const k = uploadedKeys[i];
+            const name = files[k];
+            await appendLi(
+              overlayFiles,
+              `<i class="ri-check-line"></i><span>${name}</span>`,
+              "ov-file-item",
+              i * 350,
+            );
+          }
+          await delay(uploadedKeys.length * 350 + 600);
+
+          // ─ Phase 2a: Contract OCR
+          if (files.contract) {
+            setPhase("استخراج بيانات العقد...");
+            hideAllPanels();
+            streamEl.hidden = false;
+            streamTitle.textContent = "تم استخراج من العقد:";
+            streamRows.innerHTML = "";
+            const contractFields = [
+              ["اسم المستفيد", "نواف الحربي"],
+              ["الجهة", "مؤسسة مدار التقنية"],
+              ["قيمة العقد", "85,000 ريال"],
+              ["مدة العقد", "6 أشهر"],
+              ["رقم العقد", "CT-2026-0045"],
+            ];
+            for (let i = 0; i < contractFields.length; i++) {
+              await appendRow(
+                contractFields[i][0],
+                contractFields[i][1],
+                i * 280,
+              );
+            }
+            await delay(contractFields.length * 280 + 500);
+          }
+
+          // ─ Phase 2b: Invoice OCR
+          if (files.invoice) {
+            setPhase("قراءة الفاتورة...");
+            hideAllPanels();
+            streamEl.hidden = false;
+            streamTitle.textContent = "تم استخراج من الفاتورة:";
+            streamRows.innerHTML = "";
+            const invoiceFields = [
+              ["رقم الفاتورة", "INV-2026-018"],
+              ["الإجمالي", "97,750 ريال"],
+              ["الرقم الضريبي", "300-123-456-0001"],
+            ];
+            for (let i = 0; i < invoiceFields.length; i++) {
+              await appendRow(
+                invoiceFields[i][0],
+                invoiceFields[i][1],
+                i * 280,
+              );
+            }
+            await delay(invoiceFields.length * 280 + 500);
+          }
+
+          // ─ Phase 3: Data matching
+          setPhase("مطابقة البيانات...");
+          hideAllPanels();
+          checksEl.hidden = false;
+          checksEl.innerHTML = "";
+          const matchChecks = [
+            "قيمة العقد مطابقة",
+            "الفاتورة مرتبطة بالعقد",
+            "لا يوجد اختلاف بالمبالغ",
+            "تواريخ المستندات منطقية",
+          ];
+          for (let i = 0; i < matchChecks.length; i++) {
+            await appendLi(
+              checksEl,
+              `<i class="ri-checkbox-circle-fill"></i><span>${matchChecks[i]}</span>`,
+              "ov-check-item",
+              i * 380,
+            );
+          }
+          await delay(matchChecks.length * 380 + 400);
+
+          // ─ Phase 4: Risk analysis
+          setPhase("تحليل المخاطر...");
+          hideAllPanels();
+          streamEl.hidden = false;
+          streamTitle.textContent = "مستويات المخاطر:";
+          streamRows.innerHTML = "";
+          const riskFields = [
+            ["مخاطر التلاعب", "منخفضة"],
+            ["مخاطر عدم الاكتمال", "منخفضة"],
+            ["مخاطر التعارض", "منخفضة"],
+          ];
+          for (let i = 0; i < riskFields.length; i++) {
+            await appendRow(riskFields[i][0], riskFields[i][1], i * 280);
+          }
+          await delay(riskFields.length * 280 + 400);
+
+          // ─ Phase 5: Islamic finance
+          setPhase("تحليل المالية الإسلامية...");
+          hideAllPanels();
+          checksEl.hidden = false;
+          checksEl.innerHTML = "";
+          const islamicChecks = [
+            "وضوح البنود",
+            "حفظ الحقوق",
+            "تقليل الغرر",
+            "شفافية التعاملات",
+          ];
+          for (let i = 0; i < islamicChecks.length; i++) {
+            await appendLi(
+              checksEl,
+              `<i class="ri-mosque-line"></i><span>${islamicChecks[i]}</span>`,
+              "ov-check-item ov-check-item--islamic",
+              i * 350,
+            );
+          }
+          await delay(islamicChecks.length * 350 + 500);
+
+          // ─ Phase 6: Generating score
+          setPhase("إنشاء مؤشر الثقة...");
+          hideAllPanels();
+          scoreBox.hidden = false;
+          if (ringValue) ringValue.textContent = "0";
+          if (ringEl) ringEl.style.setProperty("--ring-deg", "0deg");
+          await delay(300);
+          await animateRing(score, 1600);
+          await delay(600);
+
+          // ─ Phase 7: Success
+          setPhase("تم إنشاء مؤشر ثِق بنجاح");
+          hideAllPanels();
+          successEl.hidden = false;
+          await delay(1800);
+
+          // ─ Close overlay, continue with normal flow
+          overlay.classList.add("ai-overlay--out");
+          document.body.style.overflow = "";
+          await delay(600);
+          overlay.hidden = true;
+          overlay.classList.remove("ai-overlay--out");
+        };
+
+        // ── OCR field data per file type ──────────────────────────────
+        const OCR_DATA = {
+          contract: {
+            icon: "ri-contract-line",
+            label: "العقد",
+            fields: [
+              { label: "اسم الطرف المستفيد", value: "نواف" },
+              { label: "الجهة المتعاقدة", value: "مؤسسة مدار التقنية" },
+              { label: "قيمة العقد", value: "85,000 ريال" },
+              { label: "مدة العقد", value: "6 أشهر" },
+              { label: "عدد البنود", value: "14 بند" },
+            ],
+          },
+          invoice: {
+            icon: "ri-bill-line",
+            label: "الفاتورة",
+            fields: [
+              { label: "رقم الفاتورة", value: "INV-2026-018" },
+              { label: "مبلغ الفاتورة", value: "85,000 ريال" },
+              { label: "ضريبة القيمة المضافة", value: "12,750 ريال" },
+              { label: "الإجمالي", value: "97,750 ريال" },
+            ],
+          },
+          achievement: {
+            icon: "ri-award-line",
+            label: "إثبات الإنجاز",
+            fields: [
+              { label: "حالة الإنجاز", value: "مكتمل" },
+              { label: "تاريخ الاعتماد", value: "15 يونيو 2026" },
+              {
+                label: "ملاحظات",
+                value: "تم اعتماد الأعمال دون ملاحظات جوهرية",
+              },
+            ],
+          },
+          support: {
+            icon: "ri-folder-shield-2-line",
+            label: "المستند الداعم",
+            fields: [
+              { label: "نوع المستند", value: "إشعار تحويل بنكي" },
+              { label: "حالة المطابقة", value: "متوافق مع العقد والفاتورة" },
+              { label: "مؤشرات التلاعب", value: "لا توجد مؤشرات عالية" },
+            ],
+          },
+        };
+
+        const MATCHING_CHECKS = [
+          {
+            check: (f) => f.contract && f.invoice,
+            text: "قيمة العقد متوافقة مع الفاتورة",
+          },
+          {
+            check: (f) => f.contract && f.invoice,
+            text: "الفاتورة مرتبطة بالعقد",
+          },
+          {
+            check: (f) => f.achievement,
+            text: "إثبات الإنجاز يدعم اكتمال الخدمة",
+          },
+          {
+            check: (f) => f.support,
+            text: "المستند الداعم يعزز موثوقية الملف",
+          },
+        ];
+
+        // ── Build & animate OCR extraction panel ──────────────────────────
+        const buildAndShowOCR = (files) => {
+          if (!ocrSection || !ocrGroups) return Promise.resolve();
+          ocrGroups.innerHTML = "";
+          const FIELD_DELAY = 160;
+          const allFieldEls = [];
+
+          Object.keys(OCR_DATA).forEach((key) => {
+            const data = OCR_DATA[key];
+            const groupEl = document.createElement("div");
+            groupEl.className = "ai-ocr-group";
+            groupEl.innerHTML = `<div class="ai-ocr-group-head"><i class="${data.icon}"></i><strong>${data.label}</strong></div>`;
+
+            if (files[key]) {
+              data.fields.forEach((field) => {
+                const fieldEl = document.createElement("div");
+                fieldEl.className = "ai-ocr-field";
+                fieldEl.innerHTML =
+                  `<span class="ocr-field-label">${field.label}</span>` +
+                  `<span class="ocr-field-value">${field.value}</span>`;
+                groupEl.appendChild(fieldEl);
+                allFieldEls.push(fieldEl);
+              });
+            } else {
+              const missingEl = document.createElement("div");
+              missingEl.className = "ai-ocr-missing";
+              missingEl.textContent =
+                "لم يتم رفع هذا المستند، لذلك لم يتم تضمينه في التحليل.";
+              groupEl.appendChild(missingEl);
+            }
+            ocrGroups.appendChild(groupEl);
+          });
+
+          ocrSection.hidden = false;
+          ocrSection.scrollIntoView({ behavior: "smooth", block: "start" });
+
+          return new Promise((resolve) => {
+            if (allFieldEls.length === 0) {
+              resolve();
+              return;
+            }
+            allFieldEls.forEach((el, i) => {
+              setTimeout(() => {
+                el.classList.add("ai-ocr-field--visible");
+                if (i === allFieldEls.length - 1) setTimeout(resolve, 300);
+              }, i * FIELD_DELAY);
+            });
+          });
+        };
+
+        // ── Show matching checks ──────────────────────────────────────────
+        const showMatching = (files) => {
+          if (!matchSection || !matchingList) return;
+          const checks = MATCHING_CHECKS.filter((c) => c.check(files));
+          if (!checks.length) {
+            matchSection.hidden = true;
+            return;
+          }
+          matchingList.innerHTML = checks
+            .map(
+              (c) =>
+                `<li class="ai-matching-item ai-matching-item--ok"><span class="ai-match-icon">✓</span>${c.text}</li>`,
+            )
+            .join("");
+          matchSection.hidden = false;
+        };
+
+        // ── Animate a single step bar ────────────────────────────────────
         const animateBar = (step, onDone) => {
           const bar = step.querySelector(".ai-step-bar");
           const pctEl = step.querySelector(".ai-step-pct");
@@ -461,12 +1156,11 @@
           const target = Number(bar.dataset.target || "0");
           const text = bar.dataset.text || null;
           const isFinal = step.classList.contains("ai-step--final");
-          const isTamper = target === 0 && text;
 
           step.classList.add("ai-step--active");
 
-          if (isTamper) {
-            // Special: no numeric bar, just show green with text
+          // Tamper-style: target=0 with a text label (used for tampering & missing invoice)
+          if (target === 0 && text) {
             setTimeout(() => {
               bar.style.width = "100%";
               bar.classList.add("ai-step-bar--safe");
@@ -479,19 +1173,14 @@
 
           const start = performance.now();
           const tick = (now) => {
-            const elapsed = now - start;
-            const progress = Math.min(elapsed / BAR_DURATION, 1);
+            const progress = Math.min((now - start) / BAR_DURATION, 1);
             const eased = 1 - Math.pow(1 - progress, 3);
             const current = Math.round(target * eased);
-
             bar.style.width = `${current}%`;
-            if (pctEl) {
+            if (pctEl)
               pctEl.textContent = isFinal ? `${current}/100` : `${current}%`;
-            }
-
-            if (progress < 1) {
-              requestAnimationFrame(tick);
-            } else {
+            if (progress < 1) requestAnimationFrame(tick);
+            else {
               step.classList.add("ai-step--done");
               if (onDone) onDone();
             }
@@ -499,15 +1188,28 @@
           requestAnimationFrame(tick);
         };
 
-        // ── Run all steps sequentially ────────────────────────────────
+        // ── Run all steps sequentially ───────────────────────────────────
         const runSteps = () => {
           let i = 0;
           const next = () => {
             if (i >= steps.length) {
-              // All done — show results then scroll to them
+              // Steps done → OCR panel → matching → results
               setTimeout(() => {
-                results.hidden = false;
-                results.scrollIntoView({ behavior: "smooth", block: "start" });
+                buildAndShowOCR(savedFiles).then(() => {
+                  showMatching(savedFiles);
+                  setTimeout(() => {
+                    results.hidden = false;
+                    results.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    });
+                    if (startBtn) {
+                      startBtn.disabled = false;
+                      startBtn.innerHTML =
+                        '<i class="ri-sparkling-2-line"></i> بدء التحليل بالذكاء الاصطناعي';
+                    }
+                  }, 600);
+                });
               }, 400);
               return;
             }
@@ -517,33 +1219,47 @@
           next();
         };
 
-        // ── Start button ──────────────────────────────────────────────
+        // ── Start button ─────────────────────────────────────────────────
         startBtn?.addEventListener("click", () => {
+          const cfg = getConfig();
+          if (!cfg || !canAnalyze()) return;
+
+          applyConfig(cfg);
+          const score = cfg.stepTargets[7];
+
           startBtn.disabled = true;
           startBtn.innerHTML =
             '<i class="ri-loader-4-line ri-spin"></i> جارٍ التحليل…';
 
-          panel.hidden = false;
-          results.hidden = true;
+          // Run full-screen overlay first, then the page detail flow
+          runOverlay(savedFiles, score).then(() => {
+            panel.hidden = false;
+            results.hidden = true;
+            if (ocrSection) ocrSection.hidden = true;
+            if (matchSection) matchSection.hidden = true;
+            panel.scrollIntoView({ behavior: "smooth", block: "start" });
 
-          // Scroll to processing panel immediately
-          panel.scrollIntoView({ behavior: "smooth", block: "start" });
+            // Reset step visuals
+            steps.forEach((step) => {
+              const bar = step.querySelector(".ai-step-bar");
+              const pctEl = step.querySelector(".ai-step-pct");
+              step.classList.remove("ai-step--active", "ai-step--done");
+              if (bar) {
+                bar.style.width = "0%";
+                bar.classList.remove("ai-step-bar--safe");
+              }
+              if (pctEl) {
+                if (pctEl.classList.contains("ai-step-pct--text"))
+                  pctEl.textContent = "—";
+                else if (step.classList.contains("ai-step--final"))
+                  pctEl.textContent = "0/100";
+                else pctEl.textContent = "0%";
+              }
+            });
 
-          // Reset steps
-          steps.forEach((step) => {
-            const bar = step.querySelector(".ai-step-bar");
-            const pctEl = step.querySelector(".ai-step-pct");
-            step.classList.remove("ai-step--active", "ai-step--done");
-            if (bar) bar.style.width = "0%";
-            if (pctEl && !pctEl.classList.contains("ai-step-pct--text"))
-              pctEl.textContent = "0%";
-            if (step.classList.contains("ai-step--final") && pctEl)
-              pctEl.textContent = "0/100";
+            setTimeout(runSteps, 500);
           });
-
-          // Delay animation start until scroll lands
-          setTimeout(runSteps, 500);
-        });
+        }); // end startBtn click handler
       })();
     </script>
   </body>
