@@ -5007,3 +5007,77 @@ h2,
       "note";
   }
 }
+
+/* Mobile-only contact footer layout fix */
+@media (max-width: 767px) {
+  .footer-contact {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "copy"
+      "cards"
+      "divider"
+      "note";
+    gap: 20px;
+    padding: 24px 18px;
+    text-align: center;
+  }
+
+  .footer-contact::before {
+    inset-inline-start: 50%;
+    transform: translateX(50%);
+  }
+
+  .footer-contact-copy {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .footer-contact-copy p {
+    max-width: 100%;
+  }
+
+  .footer-contact-grid {
+    width: 100%;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .footer-contact-card {
+    width: 100%;
+    min-width: 0;
+    min-height: auto;
+    padding: 22px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .footer-contact-card i {
+    margin: 0 0 4px;
+  }
+
+  .footer-contact-card span,
+  .footer-contact-card strong {
+    display: block;
+    width: 100%;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  .footer-contact-card strong {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    direction: ltr;
+    unicode-bidi: plaintext;
+  }
+
+  .footer-contact-note {
+    padding-inline: 4px;
+    text-align: center;
+  }
+}
